@@ -201,8 +201,9 @@ php artisan test
 - ✅ Database Design & Models
 - ✅ Tour Management API
 - ✅ Authorization & User Management
+- ✅ Documentation
 - 🔄 Testing
-- ⏳ Documentation & Deployment
+- ⏳ Deployment
 - ⏳ Optional Enhancements
 
 ## Project Structure
