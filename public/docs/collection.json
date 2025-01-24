@@ -1,0 +1,453 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "f9fc7bab-c3b2-4e0d-b80a-e65ae0902c85",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "description": "\nAPIs for managing authentication",
+            "item": [
+                {
+                    "name": "Login",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"user@example.com\",\"password\":\"password123\"}"
+                        },
+                        "description": "Authenticate a user and return an access token.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"status\": true,\n \"message\": \"COMMON_TOKEN_GET_SUCCESS\",\n \"data\": {\n   \"access_token\": \"1|laravel_sanctum_token\",\n   \"token_type\": \"Bearer\",\n   \"expires_in\": 1234567890\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n \"status\": false,\n \"message\": \"COMMON_AUTH_EMAIL_EMPTY\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Register",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"John Doe\",\"email\":\"user@example.com\",\"password\":\"password123\"}"
+                        },
+                        "description": "Register a new user and return an access token.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"status\": true,\n \"message\": \"COMMON_TOKEN_GET_SUCCESS\",\n \"data\": {\n   \"access_token\": \"1|laravel_sanctum_token\",\n   \"token_type\": \"Bearer\",\n   \"expires_in\": 1234567890\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n \"status\": false,\n \"message\": \"COMMON_AUTH_EMAIL_EMPTY\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get User Profile",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/auth\/me",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/auth\/me"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get the authenticated user's profile information."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"status\": true,\n \"message\": \"COMMON_HTTP_OK\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"John Doe\",\n   \"email\": \"user@example.com\"\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tour Management",
+            "description": "\nAPIs for managing tours",
+            "item": [
+                {
+                    "name": "List Tours",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tours",
+                            "query": [
+                                {
+                                    "key": "start_date",
+                                    "value": "2024-02-01",
+                                    "description": "date Filter tours starting from this date.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "end_date",
+                                    "value": "2024-03-01",
+                                    "description": "date Filter tours ending before this date.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "location",
+                                    "value": "Paris",
+                                    "description": "Filter tours by location (partial match).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "min_price",
+                                    "value": "100",
+                                    "description": "numeric Filter tours with price greater than or equal to this value.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "max_price",
+                                    "value": "1000",
+                                    "description": "numeric Filter tours with price less than or equal to this value.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "search",
+                                    "value": "mountain",
+                                    "description": "Search in tour names and descriptions.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number for pagination.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/tours?start_date=2024-02-01&end_date=2024-03-01&location=Paris&min_price=100&max_price=1000&search=mountain&page=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a paginated list of tours. You can filter tours by various criteria.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_LIST_SUCCESS\",\n \"data\": {\n   \"current_page\": 1,\n   \"data\": [\n     {\n       \"id\": 1,\n       \"name\": \"Paris City Tour\",\n       \"description\": \"Explore the beautiful city of Paris\",\n       \"location\": \"Paris, France\",\n       \"start_date\": \"2024-03-01 10:00:00\",\n       \"end_date\": \"2024-03-03 18:00:00\",\n       \"price\": \"299.99\",\n       \"user_id\": 1,\n       \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n       \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n     }\n   ],\n   \"total\": 60,\n   \"per_page\": 10\n }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Show Tour",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tours\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tours\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "nihil",
+                                    "description": "The ID of the tour."
+                                },
+                                {
+                                    "id": "tour",
+                                    "key": "tour",
+                                    "value": "1",
+                                    "description": "The ID of the tour."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get detailed information about a specific tour.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_SHOW_SUCCESS\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Paris City Tour\",\n   \"description\": \"Explore the beautiful city of Paris\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"299.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n \"status\": false,\n \"message\": \"TOUR_NOT_FOUND\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Create Tour",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tours",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tours"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Paris City Tour\",\"description\":\"Explore the beautiful city of Paris with our experienced guides.\",\"location\":\"Paris, France\",\"start_date\":\"2024-03-01 10:00:00\",\"end_date\":\"2024-03-03 18:00:00\",\"price\":\"299.99\"}"
+                        },
+                        "description": "Create a new tour. Only authenticated tour operators can create tours."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_CREATE_SUCCESS\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Paris City Tour\",\n   \"description\": \"Explore the beautiful city of Paris with our experienced guides.\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"299.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n \"status\": false,\n \"message\": \"TOUR_NAME_REQUIRED\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update Tour",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tours\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tours\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "autem",
+                                    "description": "The ID of the tour."
+                                },
+                                {
+                                    "id": "tour",
+                                    "key": "tour",
+                                    "value": "1",
+                                    "description": "The ID of the tour."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Updated Paris City Tour\",\"description\":\"Updated tour description\",\"location\":\"Paris, France\",\"start_date\":\"2024-03-01 10:00:00\",\"end_date\":\"2024-03-03 18:00:00\",\"price\":\"349.99\"}"
+                        },
+                        "description": "Update an existing tour. Only the tour operator who created the tour can update it."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_UPDATE_SUCCESS\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Updated Paris City Tour\",\n   \"description\": \"Updated tour description\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"349.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:30:20.000000Z\"\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\n \"status\": false,\n \"message\": \"UNAUTHORIZED_ACTION\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n \"status\": false,\n \"message\": \"TOUR_NOT_FOUND\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete Tour",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/tours\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/tours\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "nulla",
+                                    "description": "The ID of the tour."
+                                },
+                                {
+                                    "id": "tour",
+                                    "key": "tour",
+                                    "value": "1",
+                                    "description": "The ID of the tour."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete an existing tour. Only the tour operator who created the tour can delete it."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_DELETE_SUCCESS\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\n \"status\": false,\n \"message\": \"UNAUTHORIZED_ACTION\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n \"status\": false,\n \"message\": \"TOUR_NOT_FOUND\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "Authorization",
+                "type": "string"
+            }
+        ]
+    }
+}
