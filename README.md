@@ -134,23 +134,6 @@ The API uses appropriate HTTP status codes:
 - 422: Validation Error
 - 500: Server Error
 
-## Development Progress
-
-- ✅ Initial Setup & Authentication
-- ✅ Database Design & Models
-- ✅ Tour Management API
-- ✅ Authorization & User Management
-- 🔄 Testing
-- ⏳ Documentation & Deployment
-- ⏳ Optional Enhancements
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Testing
 
@@ -183,3 +166,13 @@ php artisan test
 - Authorization Rules
 - Filtering and Search
 - Validation Rules
+
+## Development Progress
+
+- ✅ Initial Setup & Authentication
+- ✅ Database Design & Models
+- ✅ Tour Management API
+- ✅ Authorization & User Management
+- 🔄 Testing
+- ⏳ Documentation & Deployment
+- ⏳ Optional Enhancements
