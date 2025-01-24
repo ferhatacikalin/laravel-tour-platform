@@ -112,8 +112,8 @@ endpoints:
         status: 200
         content: |-
           {
-           "status": true,
-           "message": "TOUR_LIST_SUCCESS",
+           "status": "success",
+           "message": "Tours retrieved successfully",
            "data": {
              "current_page": 1,
              "data": [
@@ -131,7 +131,8 @@ endpoints:
                }
              ],
              "total": 60,
-             "per_page": 10
+             "per_page": 10,
+             "last_page": 6
            }
           }
         headers: []
@@ -166,16 +167,6 @@ endpoints:
         name: id
         description: 'The ID of the tour.'
         required: true
-        example: nihil
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      tour:
-        name: tour
-        description: 'The ID of the tour.'
-        required: true
         example: 1
         type: integer
         enumValues: []
@@ -183,8 +174,7 @@ endpoints:
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: nihil
-      tour: 1
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -195,8 +185,8 @@ endpoints:
         status: 200
         content: |-
           {
-           "status": true,
-           "message": "TOUR_SHOW_SUCCESS",
+           "status": "success",
+           "message": "Tour details retrieved successfully",
            "data": {
              "id": 1,
              "name": "Paris City Tour",
@@ -217,8 +207,10 @@ endpoints:
         status: 404
         content: |-
           {
-           "status": false,
-           "message": "TOUR_NOT_FOUND"
+           "status": "error",
+           "message": "Tour not found",
+           "data": {},
+           "code": "404001"
           }
         headers: []
         description: ''
@@ -326,8 +318,8 @@ endpoints:
         status: 201
         content: |-
           {
-           "status": true,
-           "message": "TOUR_CREATE_SUCCESS",
+           "status": "success",
+           "message": "Tour created successfully",
            "data": {
              "id": 1,
              "name": "Paris City Tour",
@@ -345,11 +337,25 @@ endpoints:
         description: ''
         custom: []
       -
+        status: 403
+        content: |-
+          {
+           "status": "error",
+           "message": "Forbidden",
+           "data": {},
+           "code": "403"
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
         status: 422
         content: |-
           {
-           "status": false,
-           "message": "TOUR_NAME_REQUIRED"
+           "status": "error",
+           "message": "Tour name is required",
+           "data": {},
+           "code": "422001"
           }
         headers: []
         description: ''
@@ -375,7 +381,7 @@ endpoints:
       subgroup: ''
       subgroupDescription: ''
       title: 'Update Tour'
-      description: 'Update an existing tour. Only the tour operator who created the tour can update it.'
+      description: 'Update an existing tour. Only the tour operator who created the tour or an admin can update it.'
       authenticated: true
       custom: []
     headers:
@@ -387,16 +393,6 @@ endpoints:
         name: id
         description: 'The ID of the tour.'
         required: true
-        example: autem
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      tour:
-        name: tour
-        description: 'The ID of the tour.'
-        required: true
         example: 1
         type: integer
         enumValues: []
@@ -404,8 +400,7 @@ endpoints:
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: autem
-      tour: 1
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -482,8 +477,8 @@ endpoints:
         status: 200
         content: |-
           {
-           "status": true,
-           "message": "TOUR_UPDATE_SUCCESS",
+           "status": "success",
+           "message": "Tour updated successfully",
            "data": {
              "id": 1,
              "name": "Updated Paris City Tour",
@@ -504,8 +499,10 @@ endpoints:
         status: 403
         content: |-
           {
-           "status": false,
-           "message": "UNAUTHORIZED_ACTION"
+           "status": "error",
+           "message": "Forbidden",
+           "data": {},
+           "code": "403"
           }
         headers: []
         description: ''
@@ -514,8 +511,22 @@ endpoints:
         status: 404
         content: |-
           {
-           "status": false,
-           "message": "TOUR_NOT_FOUND"
+           "status": "error",
+           "message": "Tour not found",
+           "data": {},
+           "code": "404001"
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 422
+        content: |-
+          {
+           "status": "error",
+           "message": "Tour price cannot exceed 999999.99",
+           "data": {},
+           "code": "422015"
           }
         headers: []
         description: ''
@@ -541,7 +552,7 @@ endpoints:
       subgroup: ''
       subgroupDescription: ''
       title: 'Delete Tour'
-      description: 'Delete an existing tour. Only the tour operator who created the tour can delete it.'
+      description: 'Delete an existing tour. Only the tour operator who created the tour or an admin can delete it.'
       authenticated: true
       custom: []
     headers:
@@ -553,16 +564,6 @@ endpoints:
         name: id
         description: 'The ID of the tour.'
         required: true
-        example: nulla
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: false
-        custom: []
-      tour:
-        name: tour
-        description: 'The ID of the tour.'
-        required: true
         example: 1
         type: integer
         enumValues: []
@@ -570,8 +571,7 @@ endpoints:
         nullable: false
         custom: []
     cleanUrlParameters:
-      id: nulla
-      tour: 1
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -582,8 +582,9 @@ endpoints:
         status: 200
         content: |-
           {
-           "status": true,
-           "message": "TOUR_DELETE_SUCCESS"
+           "status": "success",
+           "message": "Tour deleted successfully",
+           "data": {}
           }
         headers: []
         description: ''
@@ -592,8 +593,10 @@ endpoints:
         status: 403
         content: |-
           {
-           "status": false,
-           "message": "UNAUTHORIZED_ACTION"
+           "status": "error",
+           "message": "Forbidden",
+           "data": {},
+           "code": "403"
           }
         headers: []
         description: ''
@@ -602,8 +605,10 @@ endpoints:
         status: 404
         content: |-
           {
-           "status": false,
-           "message": "TOUR_NOT_FOUND"
+           "status": "error",
+           "message": "Tour not found",
+           "data": {},
+           "code": "404001"
           }
         headers: []
         description: ''

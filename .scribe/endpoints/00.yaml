@@ -55,13 +55,31 @@ endpoints:
         status: 200
         content: |-
           {
-           "status": true,
-           "message": "COMMON_TOKEN_GET_SUCCESS",
+           "status": "success",
+           "message": "Obtained token successfully",
            "data": {
-             "access_token": "1|laravel_sanctum_token",
-             "token_type": "Bearer",
-             "expires_in": 1234567890
+             "user": {
+               "id": 1,
+               "name": "John Doe",
+               "email": "user@example.com",
+               "role": "tour_operator",
+               "created_at": "2024-01-24T19:26:20.000000Z",
+               "updated_at": "2024-01-24T19:26:20.000000Z"
+             },
+             "token": "1|laravel_sanctum_token"
            }
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: |-
+          {
+           "status": "error",
+           "message": "Wrong account or password",
+           "data": {},
+           "code": "200006"
           }
         headers: []
         description: ''
@@ -70,8 +88,10 @@ endpoints:
         status: 422
         content: |-
           {
-           "status": false,
-           "message": "COMMON_AUTH_EMAIL_EMPTY"
+           "status": "error",
+           "message": "Please enter your email",
+           "data": {},
+           "code": "200027"
           }
         headers: []
         description: ''
@@ -135,22 +155,39 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'The password confirmation. Must match password.'
+        required: true
+        example: password123
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
     cleanBodyParameters:
       name: 'John Doe'
       email: user@example.com
       password: password123
+      password_confirmation: password123
     fileParameters: []
     responses:
       -
-        status: 200
+        status: 201
         content: |-
           {
-           "status": true,
-           "message": "COMMON_TOKEN_GET_SUCCESS",
+           "status": "success",
+           "message": "Obtained token successfully",
            "data": {
-             "access_token": "1|laravel_sanctum_token",
-             "token_type": "Bearer",
-             "expires_in": 1234567890
+             "user": {
+               "id": 1,
+               "name": "John Doe",
+               "email": "user@example.com",
+               "role": "tour_operator",
+               "created_at": "2024-01-24T19:26:20.000000Z",
+               "updated_at": "2024-01-24T19:26:20.000000Z"
+             },
+             "token": "1|laravel_sanctum_token"
            }
           }
         headers: []
@@ -160,8 +197,10 @@ endpoints:
         status: 422
         content: |-
           {
-           "status": false,
-           "message": "COMMON_AUTH_EMAIL_EMPTY"
+           "status": "error",
+           "message": "Email already exists.",
+           "data": {},
+           "code": "200031"
           }
         headers: []
         description: ''
@@ -174,7 +213,7 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - POST
+      - GET
     uri: api/v1/auth/me
     metadata:
       groupName: Authentication
@@ -203,13 +242,28 @@ endpoints:
         status: 200
         content: |-
           {
-           "status": true,
-           "message": "COMMON_HTTP_OK",
+           "status": "success",
+           "message": "OK",
            "data": {
              "id": 1,
              "name": "John Doe",
-             "email": "user@example.com"
+             "email": "user@example.com",
+             "role": "tour_operator",
+             "created_at": "2024-01-24T19:26:20.000000Z",
+             "updated_at": "2024-01-24T19:26:20.000000Z"
            }
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: |-
+          {
+           "status": "error",
+           "message": "UnAuthorized",
+           "data": {},
+           "code": "401"
           }
         headers: []
         description: ''

@@ -16,7 +16,7 @@ Route::group(['prefix' => 'v1'], function () {
     // Protected routes
     Route::middleware('auth:sanctum')->group(function () {
         // Auth routes
-        Route::post('auth/me', [AuthController::class, 'me']);
+        Route::get('auth/me', [AuthController::class, 'me']);
 
         // Protected tour routes
         Route::post('tours', [TourController::class, 'store']);

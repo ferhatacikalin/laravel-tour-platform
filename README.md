@@ -60,67 +60,27 @@ DB_PASSWORD=your_password
 php artisan migrate --seed
 ```
 
-## API Documentation
+## Documentation
 
-### Authentication Endpoints
-
-#### Register User
-```http
-POST /api/v1/auth/register
+### API Documentation
+Detailed API documentation is available at `/docs` when running the application:
 ```
-- Required fields: name, email, password
-- Returns: User data with access token
-
-#### Login
-```http
-POST /api/v1/auth/login
-```
-- Required fields: email, password
-- Returns: Access token
-
-### Tour Endpoints
-
-#### List Tours
-```http
-GET /api/v1/tours
-```
-Query Parameters:
-- start_date (optional): Filter tours starting from this date
-- end_date (optional): Filter tours ending before this date
-- location (optional): Filter by location
-- min_price (optional): Minimum price filter
-- max_price (optional): Maximum price filter
-- search (optional): Search in name and description
-
-#### Create Tour
-```http
-POST /api/v1/tours
-```
-Required fields:
-- name: Tour name
-- description: Tour description
-- location: Tour location
-- start_date: Start date (format: Y-m-d H:i:s)
-- end_date: End date (format: Y-m-d H:i:s)
-- price: Tour price (max: 999999.99)
-
-#### Show Tour
-```http
-GET /api/v1/tours/{id}
+http://your-domain/docs
 ```
 
-#### Update Tour
-```http
-PUT /api/v1/tours/{id}
-```
-- Same fields as create (all optional)
-- Only tour owner or admin can update
+The documentation includes:
+- Detailed endpoint descriptions
+- Request/Response examples
+- Authentication instructions
+- Error handling
 
-#### Delete Tour
-```http
-DELETE /api/v1/tours/{id}
+### Postman Collection
+A complete Postman collection is available at `/docs/collection.json`:
 ```
-- Only tour owner or admin can delete
+http://your-domain/docs/collection.json
+```
+
+You can import this collection into Postman to test all available endpoints.
 
 ## Test Users
 
@@ -153,11 +113,12 @@ The seeder creates the following test users:
 All API responses follow this structure:
 ```json
 {
-    "status": true/false,
-    "message": "Response message code",
+    "status": "success|error",
+    "message": "Response message",
     "data": {
         // Response data here
-    }
+    },
+    "code": "Error code (only in error responses)"
 }
 ```
 

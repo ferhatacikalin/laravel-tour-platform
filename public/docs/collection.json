@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "f9fc7bab-c3b2-4e0d-b80a-e65ae0902c85",
+        "_postman_id": "ccc079e0-8bf3-47ec-a05a-1fcc97c8a32d",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -52,13 +52,19 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n \"status\": true,\n \"message\": \"COMMON_TOKEN_GET_SUCCESS\",\n \"data\": {\n   \"access_token\": \"1|laravel_sanctum_token\",\n   \"token_type\": \"Bearer\",\n   \"expires_in\": 1234567890\n }\n}",
+                            "body": "{\n \"status\": \"success\",\n \"message\": \"Obtained token successfully\",\n \"data\": {\n   \"user\": {\n     \"id\": 1,\n     \"name\": \"John Doe\",\n     \"email\": \"user@example.com\",\n     \"role\": \"tour_operator\",\n     \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n     \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n   },\n   \"token\": \"1|laravel_sanctum_token\"\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Wrong account or password\",\n \"data\": {},\n \"code\": \"200006\"\n}",
                             "name": ""
                         },
                         {
                             "header": [],
                             "code": 422,
-                            "body": "{\n \"status\": false,\n \"message\": \"COMMON_AUTH_EMAIL_EMPTY\"\n}",
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Please enter your email\",\n \"data\": {},\n \"code\": \"200027\"\n}",
                             "name": ""
                         }
                     ]
@@ -85,7 +91,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"John Doe\",\"email\":\"user@example.com\",\"password\":\"password123\"}"
+                            "raw": "{\"name\":\"John Doe\",\"email\":\"user@example.com\",\"password\":\"password123\",\"password_confirmation\":\"password123\"}"
                         },
                         "description": "Register a new user and return an access token.",
                         "auth": {
@@ -95,14 +101,14 @@
                     "response": [
                         {
                             "header": [],
-                            "code": 200,
-                            "body": "{\n \"status\": true,\n \"message\": \"COMMON_TOKEN_GET_SUCCESS\",\n \"data\": {\n   \"access_token\": \"1|laravel_sanctum_token\",\n   \"token_type\": \"Bearer\",\n   \"expires_in\": 1234567890\n }\n}",
+                            "code": 201,
+                            "body": "{\n \"status\": \"success\",\n \"message\": \"Obtained token successfully\",\n \"data\": {\n   \"user\": {\n     \"id\": 1,\n     \"name\": \"John Doe\",\n     \"email\": \"user@example.com\",\n     \"role\": \"tour_operator\",\n     \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n     \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n   },\n   \"token\": \"1|laravel_sanctum_token\"\n }\n}",
                             "name": ""
                         },
                         {
                             "header": [],
                             "code": 422,
-                            "body": "{\n \"status\": false,\n \"message\": \"COMMON_AUTH_EMAIL_EMPTY\"\n}",
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Email already exists.\",\n \"data\": {},\n \"code\": \"200031\"\n}",
                             "name": ""
                         }
                     ]
@@ -116,7 +122,7 @@
                             "query": [],
                             "raw": "{{baseUrl}}\/api\/v1\/auth\/me"
                         },
-                        "method": "POST",
+                        "method": "GET",
                         "header": [
                             {
                                 "key": "Content-Type",
@@ -134,7 +140,13 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n \"status\": true,\n \"message\": \"COMMON_HTTP_OK\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"John Doe\",\n   \"email\": \"user@example.com\"\n }\n}",
+                            "body": "{\n \"status\": \"success\",\n \"message\": \"OK\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"John Doe\",\n   \"email\": \"user@example.com\",\n   \"role\": \"tour_operator\",\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"UnAuthorized\",\n \"data\": {},\n \"code\": \"401\"\n}",
                             "name": ""
                         }
                     ]
@@ -218,7 +230,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_LIST_SUCCESS\",\n \"data\": {\n   \"current_page\": 1,\n   \"data\": [\n     {\n       \"id\": 1,\n       \"name\": \"Paris City Tour\",\n       \"description\": \"Explore the beautiful city of Paris\",\n       \"location\": \"Paris, France\",\n       \"start_date\": \"2024-03-01 10:00:00\",\n       \"end_date\": \"2024-03-03 18:00:00\",\n       \"price\": \"299.99\",\n       \"user_id\": 1,\n       \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n       \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n     }\n   ],\n   \"total\": 60,\n   \"per_page\": 10\n }\n}",
+                            "body": "{\n \"status\": \"success\",\n \"message\": \"Tours retrieved successfully\",\n \"data\": {\n   \"current_page\": 1,\n   \"data\": [\n     {\n       \"id\": 1,\n       \"name\": \"Paris City Tour\",\n       \"description\": \"Explore the beautiful city of Paris\",\n       \"location\": \"Paris, France\",\n       \"start_date\": \"2024-03-01 10:00:00\",\n       \"end_date\": \"2024-03-03 18:00:00\",\n       \"price\": \"299.99\",\n       \"user_id\": 1,\n       \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n       \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n     }\n   ],\n   \"total\": 60,\n   \"per_page\": 10,\n   \"last_page\": 6\n }\n}",
                             "name": ""
                         }
                     ]
@@ -235,12 +247,6 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "nihil",
-                                    "description": "The ID of the tour."
-                                },
-                                {
-                                    "id": "tour",
-                                    "key": "tour",
                                     "value": "1",
                                     "description": "The ID of the tour."
                                 }
@@ -267,13 +273,13 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_SHOW_SUCCESS\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Paris City Tour\",\n   \"description\": \"Explore the beautiful city of Paris\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"299.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n }\n}",
+                            "body": "{\n \"status\": \"success\",\n \"message\": \"Tour details retrieved successfully\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Paris City Tour\",\n   \"description\": \"Explore the beautiful city of Paris\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"299.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n }\n}",
                             "name": ""
                         },
                         {
                             "header": [],
                             "code": 404,
-                            "body": "{\n \"status\": false,\n \"message\": \"TOUR_NOT_FOUND\"\n}",
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Tour not found\",\n \"data\": {},\n \"code\": \"404001\"\n}",
                             "name": ""
                         }
                     ]
@@ -308,13 +314,19 @@
                         {
                             "header": [],
                             "code": 201,
-                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_CREATE_SUCCESS\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Paris City Tour\",\n   \"description\": \"Explore the beautiful city of Paris with our experienced guides.\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"299.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n }\n}",
+                            "body": "{\n \"status\": \"success\",\n \"message\": \"Tour created successfully\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Paris City Tour\",\n   \"description\": \"Explore the beautiful city of Paris with our experienced guides.\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"299.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:26:20.000000Z\"\n }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Forbidden\",\n \"data\": {},\n \"code\": \"403\"\n}",
                             "name": ""
                         },
                         {
                             "header": [],
                             "code": 422,
-                            "body": "{\n \"status\": false,\n \"message\": \"TOUR_NAME_REQUIRED\"\n}",
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Tour name is required\",\n \"data\": {},\n \"code\": \"422001\"\n}",
                             "name": ""
                         }
                     ]
@@ -331,12 +343,6 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "autem",
-                                    "description": "The ID of the tour."
-                                },
-                                {
-                                    "id": "tour",
-                                    "key": "tour",
                                     "value": "1",
                                     "description": "The ID of the tour."
                                 }
@@ -357,25 +363,31 @@
                             "mode": "raw",
                             "raw": "{\"name\":\"Updated Paris City Tour\",\"description\":\"Updated tour description\",\"location\":\"Paris, France\",\"start_date\":\"2024-03-01 10:00:00\",\"end_date\":\"2024-03-03 18:00:00\",\"price\":\"349.99\"}"
                         },
-                        "description": "Update an existing tour. Only the tour operator who created the tour can update it."
+                        "description": "Update an existing tour. Only the tour operator who created the tour or an admin can update it."
                     },
                     "response": [
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_UPDATE_SUCCESS\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Updated Paris City Tour\",\n   \"description\": \"Updated tour description\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"349.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:30:20.000000Z\"\n }\n}",
+                            "body": "{\n \"status\": \"success\",\n \"message\": \"Tour updated successfully\",\n \"data\": {\n   \"id\": 1,\n   \"name\": \"Updated Paris City Tour\",\n   \"description\": \"Updated tour description\",\n   \"location\": \"Paris, France\",\n   \"start_date\": \"2024-03-01 10:00:00\",\n   \"end_date\": \"2024-03-03 18:00:00\",\n   \"price\": \"349.99\",\n   \"user_id\": 1,\n   \"created_at\": \"2024-01-24T19:26:20.000000Z\",\n   \"updated_at\": \"2024-01-24T19:30:20.000000Z\"\n }\n}",
                             "name": ""
                         },
                         {
                             "header": [],
                             "code": 403,
-                            "body": "{\n \"status\": false,\n \"message\": \"UNAUTHORIZED_ACTION\"\n}",
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Forbidden\",\n \"data\": {},\n \"code\": \"403\"\n}",
                             "name": ""
                         },
                         {
                             "header": [],
                             "code": 404,
-                            "body": "{\n \"status\": false,\n \"message\": \"TOUR_NOT_FOUND\"\n}",
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Tour not found\",\n \"data\": {},\n \"code\": \"404001\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Tour price cannot exceed 999999.99\",\n \"data\": {},\n \"code\": \"422015\"\n}",
                             "name": ""
                         }
                     ]
@@ -392,12 +404,6 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "nulla",
-                                    "description": "The ID of the tour."
-                                },
-                                {
-                                    "id": "tour",
-                                    "key": "tour",
                                     "value": "1",
                                     "description": "The ID of the tour."
                                 }
@@ -415,25 +421,25 @@
                             }
                         ],
                         "body": null,
-                        "description": "Delete an existing tour. Only the tour operator who created the tour can delete it."
+                        "description": "Delete an existing tour. Only the tour operator who created the tour or an admin can delete it."
                     },
                     "response": [
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\n \"status\": true,\n \"message\": \"TOUR_DELETE_SUCCESS\"\n}",
+                            "body": "{\n \"status\": \"success\",\n \"message\": \"Tour deleted successfully\",\n \"data\": {}\n}",
                             "name": ""
                         },
                         {
                             "header": [],
                             "code": 403,
-                            "body": "{\n \"status\": false,\n \"message\": \"UNAUTHORIZED_ACTION\"\n}",
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Forbidden\",\n \"data\": {},\n \"code\": \"403\"\n}",
                             "name": ""
                         },
                         {
                             "header": [],
                             "code": 404,
-                            "body": "{\n \"status\": false,\n \"message\": \"TOUR_NOT_FOUND\"\n}",
+                            "body": "{\n \"status\": \"error\",\n \"message\": \"Tour not found\",\n \"data\": {},\n \"code\": \"404001\"\n}",
                             "name": ""
                         }
                     ]

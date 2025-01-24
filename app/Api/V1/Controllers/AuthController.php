@@ -30,18 +30,33 @@ class AuthController extends BaseController
      * @bodyParam password string required The password of the user. Minimum length: 5 characters. Example: password123
      * 
      * @response {
-     *  "status": true,
-     *  "message": "COMMON_TOKEN_GET_SUCCESS",
+     *  "status": "success",
+     *  "message": "Obtained token successfully",
      *  "data": {
-     *    "access_token": "1|laravel_sanctum_token",
-     *    "token_type": "Bearer",
-     *    "expires_in": 1234567890
+     *    "user": {
+     *      "id": 1,
+     *      "name": "John Doe",
+     *      "email": "user@example.com",
+     *      "role": "tour_operator",
+     *      "created_at": "2024-01-24T19:26:20.000000Z",
+     *      "updated_at": "2024-01-24T19:26:20.000000Z"
+     *    },
+     *    "token": "1|laravel_sanctum_token"
      *  }
      * }
      * 
+     * @response 401 {
+     *  "status": "error",
+     *  "message": "Wrong account or password",
+     *  "data": {},
+     *  "code": "200006"
+     * }
+     * 
      * @response 422 {
-     *  "status": false,
-     *  "message": "COMMON_AUTH_EMAIL_EMPTY"
+     *  "status": "error",
+     *  "message": "Please enter your email",
+     *  "data": {},
+     *  "code": "200027"
      * }
      */
     public function login(Request $request): JsonResponse
@@ -59,14 +74,17 @@ class AuthController extends BaseController
         ];
         $validator = Validator::make($payload, $rule, $message);
         if ($validator->fails()) {
-            return $this->fail($validator->errors()->first());
+            return $this->fail($validator->errors()->first(), [], 422);
         }
-        $user = User::query()->where('email', $payload['email'])->first();
+        $user = User::where('email', $payload['email'])->first();
         if (!$user || !Hash::check($payload['password'], $user->password)) {
-            return $this->fail('COMMON_LOGIN_ERROR');
+            return $this->fail('COMMON_LOGIN_ERROR', [], 401);
         }
         $token = $user->createToken('Personal Access Token')->plainTextToken;
-        return $this->respondWithToken($token);
+        return $this->success('COMMON_TOKEN_GET_SUCCESS', [
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 
     /**
@@ -77,54 +95,71 @@ class AuthController extends BaseController
      * @bodyParam name string required The name of the user. Example: John Doe
      * @bodyParam email string required The email of the user. Example: user@example.com
      * @bodyParam password string required The password of the user. Minimum length: 8 characters. Example: password123
+     * @bodyParam password_confirmation string required The password confirmation. Must match password. Example: password123
      * 
-     * @response {
-     *  "status": true,
-     *  "message": "COMMON_TOKEN_GET_SUCCESS",
+     * @response 201 {
+     *  "status": "success",
+     *  "message": "Obtained token successfully",
      *  "data": {
-     *    "access_token": "1|laravel_sanctum_token",
-     *    "token_type": "Bearer",
-     *    "expires_in": 1234567890
+     *    "user": {
+     *      "id": 1,
+     *      "name": "John Doe",
+     *      "email": "user@example.com",
+     *      "role": "tour_operator",
+     *      "created_at": "2024-01-24T19:26:20.000000Z",
+     *      "updated_at": "2024-01-24T19:26:20.000000Z"
+     *    },
+     *    "token": "1|laravel_sanctum_token"
      *  }
      * }
      * 
      * @response 422 {
-     *  "status": false,
-     *  "message": "COMMON_AUTH_EMAIL_EMPTY"
+     *  "status": "error",
+     *  "message": "Email already exists.",
+     *  "data": {},
+     *  "code": "200031"
      * }
      */
     public function register(Request $request): JsonResponse
     {
-        $payload = $request->only('name', 'email', 'password');
+        $payload = $request->only('name', 'email', 'password', 'password_confirmation');
         $rule = [
             'name'      => ['required'],
-            'email'     => ['required','email'],
-            'password'  => ['required','min:8']
+            'email'     => ['required','email','unique:users'],
+            'password'  => ['required','min:8','confirmed'],
+            'password_confirmation' => ['required']
         ];
         $message = [
             'name.required'     => 'COMMON_AUTH_NAME_EMPTY',
             'email.required'    => 'COMMON_AUTH_EMAIL_EMPTY',
             'email.email'       => 'COMMON_AUTH_EMAIL_ERROR',
+            'email.unique'      => 'COMMON_AUTH_EMAIL_EXISTS',
             'password.required' => 'COMMON_AUTH_PASSWORD_EMPTY',
-            'password.min'      => 'COMMON_AUTH_PASSWORD_ERROR'
+            'password.min'      => 'COMMON_AUTH_PASSWORD_ERROR',
+            'password.confirmed' => 'COMMON_AUTH_PASSWORD_CONFIRMATION_ERROR',
+            'password_confirmation.required' => 'COMMON_AUTH_PASSWORD_CONFIRMATION_EMPTY'
         ];
         $validator = Validator::make($payload, $rule, $message);
         if ($validator->fails()) {
-            return $this->fail($validator->errors()->first());
+            return $this->fail($validator->errors()->first(), [], 422);
         }
         DB::beginTransaction();
         try {
-            $user = User::query()->create([
+            $user = User::create([
                 'name'      => $payload['name'],
                 'email'     => $payload['email'],
-                'password'  => Hash::make($payload['password'])
+                'password'  => Hash::make($payload['password']),
+                'role'      => 'tour_operator'
             ]);
             $token = $user->createToken('Personal Access Token')->plainTextToken;
             DB::commit();
-            return $this->respondWithToken($token);
+            return $this->success('COMMON_TOKEN_GET_SUCCESS', [
+                'user' => $user,
+                'token' => $token
+            ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return $this->fail('COMMON_EMAIL_NOT_REGISTER');
+            return $this->fail('COMMON_EMAIL_NOT_REGISTER', [], 422);
         }
     }
 
@@ -136,23 +171,28 @@ class AuthController extends BaseController
      * @authenticated
      * 
      * @response {
-     *  "status": true,
-     *  "message": "COMMON_HTTP_OK",
+     *  "status": "success",
+     *  "message": "OK",
      *  "data": {
      *    "id": 1,
      *    "name": "John Doe",
-     *    "email": "user@example.com"
+     *    "email": "user@example.com",
+     *    "role": "tour_operator",
+     *    "created_at": "2024-01-24T19:26:20.000000Z",
+     *    "updated_at": "2024-01-24T19:26:20.000000Z"
      *  }
+     * }
+     * 
+     * @response 401 {
+     *  "status": "error",
+     *  "message": "UnAuthorized",
+     *  "data": {},
+     *  "code": "401"
      * }
      */
     public function me(): JsonResponse
     {
-        $user = Auth::user();
-        return $this->success('COMMON_HTTP_OK', [
-            'id'    => $user['id'],
-            'name'  => $user['name'],
-            'email' => $user['email']
-        ]);
+        return $this->success('COMMON_HTTP_OK', Auth::user());
     }
     protected function respondWithToken(string $token): JsonResponse
     {

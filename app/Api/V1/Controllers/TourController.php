@@ -33,8 +33,8 @@ class TourController extends BaseController
      * @queryParam page integer Page number for pagination. Example: 1
      * 
      * @response {
-     *  "status": true,
-     *  "message": "TOUR_LIST_SUCCESS",
+     *  "status": "success",
+     *  "message": "Tours retrieved successfully",
      *  "data": {
      *    "current_page": 1,
      *    "data": [
@@ -52,7 +52,8 @@ class TourController extends BaseController
      *      }
      *    ],
      *    "total": 60,
-     *    "per_page": 10
+     *    "per_page": 10,
+     *    "last_page": 6
      *  }
      * }
      */
@@ -115,8 +116,8 @@ class TourController extends BaseController
      * @bodyParam price numeric required The price of the tour. Must be between 0 and 999999.99. Example: 299.99
      * 
      * @response 201 {
-     *  "status": true,
-     *  "message": "TOUR_CREATE_SUCCESS",
+     *  "status": "success",
+     *  "message": "Tour created successfully",
      *  "data": {
      *    "id": 1,
      *    "name": "Paris City Tour",
@@ -132,8 +133,17 @@ class TourController extends BaseController
      * }
      * 
      * @response 422 {
-     *  "status": false,
-     *  "message": "TOUR_NAME_REQUIRED"
+     *  "status": "error",
+     *  "message": "Tour name is required",
+     *  "data": {},
+     *  "code": "422001"
+     * }
+     * 
+     * @response 403 {
+     *  "status": "error",
+     *  "message": "Forbidden",
+     *  "data": {},
+     *  "code": "403"
      * }
      */
     public function store(CreateTourRequest $request): JsonResponse
@@ -155,11 +165,11 @@ class TourController extends BaseController
      * 
      * Get detailed information about a specific tour.
      * 
-     * @urlParam tour integer required The ID of the tour. Example: 1
+     * @urlParam id integer required The ID of the tour. Example: 1
      * 
      * @response {
-     *  "status": true,
-     *  "message": "TOUR_SHOW_SUCCESS",
+     *  "status": "success",
+     *  "message": "Tour details retrieved successfully",
      *  "data": {
      *    "id": 1,
      *    "name": "Paris City Tour",
@@ -175,8 +185,10 @@ class TourController extends BaseController
      * }
      * 
      * @response 404 {
-     *  "status": false,
-     *  "message": "TOUR_NOT_FOUND"
+     *  "status": "error",
+     *  "message": "Tour not found",
+     *  "data": {},
+     *  "code": "404001"
      * }
      */
     public function show(int $id): JsonResponse
@@ -197,11 +209,11 @@ class TourController extends BaseController
     /**
      * Update Tour
      * 
-     * Update an existing tour. Only the tour operator who created the tour can update it.
+     * Update an existing tour. Only the tour operator who created the tour or an admin can update it.
      * 
      * @authenticated
      * 
-     * @urlParam tour integer required The ID of the tour. Example: 1
+     * @urlParam id integer required The ID of the tour. Example: 1
      * @bodyParam name string The name of the tour. Example: Updated Paris City Tour
      * @bodyParam description string The detailed description of the tour. Example: Updated tour description
      * @bodyParam location string The location where the tour takes place. Example: Paris, France
@@ -210,8 +222,8 @@ class TourController extends BaseController
      * @bodyParam price numeric The price of the tour. Must be between 0 and 999999.99. Example: 349.99
      * 
      * @response {
-     *  "status": true,
-     *  "message": "TOUR_UPDATE_SUCCESS",
+     *  "status": "success",
+     *  "message": "Tour updated successfully",
      *  "data": {
      *    "id": 1,
      *    "name": "Updated Paris City Tour",
@@ -227,13 +239,24 @@ class TourController extends BaseController
      * }
      * 
      * @response 403 {
-     *  "status": false,
-     *  "message": "COMMON_AUTHORIZATION_EXCEPTION"
+     *  "status": "error",
+     *  "message": "Forbidden",
+     *  "data": {},
+     *  "code": "403"
      * }
      * 
      * @response 404 {
-     *  "status": false,
-     *  "message": "TOUR_NOT_FOUND"
+     *  "status": "error",
+     *  "message": "Tour not found",
+     *  "data": {},
+     *  "code": "404001"
+     * }
+     * 
+     * @response 422 {
+     *  "status": "error",
+     *  "message": "Tour price cannot exceed 999999.99",
+     *  "data": {},
+     *  "code": "422015"
      * }
      */
     public function update(UpdateTourRequest $request, int $id): JsonResponse
@@ -258,25 +281,30 @@ class TourController extends BaseController
     /**
      * Delete Tour
      * 
-     * Delete an existing tour. Only the tour operator who created the tour can delete it.
+     * Delete an existing tour. Only the tour operator who created the tour or an admin can delete it.
      * 
      * @authenticated
      * 
-     * @urlParam tour integer required The ID of the tour. Example: 1
+     * @urlParam id integer required The ID of the tour. Example: 1
      * 
      * @response {
-     *  "status": true,
-     *  "message": "TOUR_DELETE_SUCCESS"
+     *  "status": "success",
+     *  "message": "Tour deleted successfully",
+     *  "data": {}
      * }
      * 
      * @response 403 {
-     *  "status": false,
-     *  "message": "COMMON_AUTHORIZATION_EXCEPTION"
+     *  "status": "error",
+     *  "message": "Forbidden",
+     *  "data": {},
+     *  "code": "403"
      * }
      * 
      * @response 404 {
-     *  "status": false,
-     *  "message": "TOUR_NOT_FOUND"
+     *  "status": "error",
+     *  "message": "Tour not found",
+     *  "data": {},
+     *  "code": "404001"
      * }
      */
     public function destroy(int $id): JsonResponse

@@ -7,7 +7,7 @@ return [
     'COMMON_NOT_FOUND_EXCEPTION'                => ['Code'=>'404','Message'=>'Not Found'],
     'COMMON_METHOD_NOT_ALLOW_HTTP_EXCEPTION'    => ['Code'=>'405','Message'=>'Method not allowed'],
     'COMMON_HTTP_ERROR'                         => ['Code'=>'500','Message'=>'Internal Server Error'],
-
+    'COMMON_AUTH_PASSWORD_CONFIRMATION_ERROR'    => ['Code'=>'422001','Message'=>'Password confirmation error'],
     'COMMON_TOKEN_GET_SUCCESS'                  => ['Code'=>'200001','Message'=>'Obtained token successfully'],
     'COMMON_TOKEN_GET_ERROR'                    => ['Code'=>'200002','Message'=>'Obtained token failed'],
     'COMMON_REGISTER_SUCCESS'                   => ['Code'=>'200003','Message'=>'Registration success'],

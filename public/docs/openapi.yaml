@@ -21,31 +21,75 @@ paths:
               schema:
                 type: object
                 example:
-                  status: true
-                  message: COMMON_TOKEN_GET_SUCCESS
+                  status: success
+                  message: 'Obtained token successfully'
                   data:
-                    access_token: 1|laravel_sanctum_token
-                    token_type: Bearer
-                    expires_in: 1234567890
+                    user:
+                      id: 1
+                      name: 'John Doe'
+                      email: user@example.com
+                      role: tour_operator
+                      created_at: '2024-01-24T19:26:20.000000Z'
+                      updated_at: '2024-01-24T19:26:20.000000Z'
+                    token: 1|laravel_sanctum_token
                 properties:
                   status:
-                    type: boolean
-                    example: true
+                    type: string
+                    example: success
                   message:
                     type: string
-                    example: COMMON_TOKEN_GET_SUCCESS
+                    example: 'Obtained token successfully'
                   data:
                     type: object
                     properties:
-                      access_token:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: 'John Doe'
+                          email:
+                            type: string
+                            example: user@example.com
+                          role:
+                            type: string
+                            example: tour_operator
+                          created_at:
+                            type: string
+                            example: '2024-01-24T19:26:20.000000Z'
+                          updated_at:
+                            type: string
+                            example: '2024-01-24T19:26:20.000000Z'
+                      token:
                         type: string
                         example: 1|laravel_sanctum_token
-                      token_type:
-                        type: string
-                        example: Bearer
-                      expires_in:
-                        type: integer
-                        example: 1234567890
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: error
+                  message: 'Wrong account or password'
+                  data: {  }
+                  code: '200006'
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: 'Wrong account or password'
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '200006'
         422:
           description: ''
           content:
@@ -53,15 +97,23 @@ paths:
               schema:
                 type: object
                 example:
-                  status: false
-                  message: COMMON_AUTH_EMAIL_EMPTY
+                  status: error
+                  message: 'Please enter your email'
+                  data: {  }
+                  code: '200027'
                 properties:
                   status:
-                    type: boolean
-                    example: false
+                    type: string
+                    example: error
                   message:
                     type: string
-                    example: COMMON_AUTH_EMAIL_EMPTY
+                    example: 'Please enter your email'
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '200027'
       tags:
         - Authentication
       requestBody:
@@ -92,38 +144,58 @@ paths:
       description: 'Register a new user and return an access token.'
       parameters: []
       responses:
-        200:
+        201:
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
-                  status: true
-                  message: COMMON_TOKEN_GET_SUCCESS
+                  status: success
+                  message: 'Obtained token successfully'
                   data:
-                    access_token: 1|laravel_sanctum_token
-                    token_type: Bearer
-                    expires_in: 1234567890
+                    user:
+                      id: 1
+                      name: 'John Doe'
+                      email: user@example.com
+                      role: tour_operator
+                      created_at: '2024-01-24T19:26:20.000000Z'
+                      updated_at: '2024-01-24T19:26:20.000000Z'
+                    token: 1|laravel_sanctum_token
                 properties:
                   status:
-                    type: boolean
-                    example: true
+                    type: string
+                    example: success
                   message:
                     type: string
-                    example: COMMON_TOKEN_GET_SUCCESS
+                    example: 'Obtained token successfully'
                   data:
                     type: object
                     properties:
-                      access_token:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: 'John Doe'
+                          email:
+                            type: string
+                            example: user@example.com
+                          role:
+                            type: string
+                            example: tour_operator
+                          created_at:
+                            type: string
+                            example: '2024-01-24T19:26:20.000000Z'
+                          updated_at:
+                            type: string
+                            example: '2024-01-24T19:26:20.000000Z'
+                      token:
                         type: string
                         example: 1|laravel_sanctum_token
-                      token_type:
-                        type: string
-                        example: Bearer
-                      expires_in:
-                        type: integer
-                        example: 1234567890
         422:
           description: ''
           content:
@@ -131,15 +203,23 @@ paths:
               schema:
                 type: object
                 example:
-                  status: false
-                  message: COMMON_AUTH_EMAIL_EMPTY
+                  status: error
+                  message: 'Email already exists.'
+                  data: {  }
+                  code: '200031'
                 properties:
                   status:
-                    type: boolean
-                    example: false
+                    type: string
+                    example: error
                   message:
                     type: string
-                    example: COMMON_AUTH_EMAIL_EMPTY
+                    example: 'Email already exists.'
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '200031'
       tags:
         - Authentication
       requestBody:
@@ -164,13 +244,19 @@ paths:
                   description: 'The password of the user. Minimum length: 8 characters.'
                   example: password123
                   nullable: false
+                password_confirmation:
+                  type: string
+                  description: 'The password confirmation. Must match password.'
+                  example: password123
+                  nullable: false
               required:
                 - name
                 - email
                 - password
+                - password_confirmation
       security: []
   /api/v1/auth/me:
-    post:
+    get:
       summary: 'Get User Profile'
       operationId: getUserProfile
       description: "Get the authenticated user's profile information."
@@ -183,19 +269,22 @@ paths:
               schema:
                 type: object
                 example:
-                  status: true
-                  message: COMMON_HTTP_OK
+                  status: success
+                  message: OK
                   data:
                     id: 1
                     name: 'John Doe'
                     email: user@example.com
+                    role: tour_operator
+                    created_at: '2024-01-24T19:26:20.000000Z'
+                    updated_at: '2024-01-24T19:26:20.000000Z'
                 properties:
                   status:
-                    type: boolean
-                    example: true
+                    type: string
+                    example: success
                   message:
                     type: string
-                    example: COMMON_HTTP_OK
+                    example: OK
                   data:
                     type: object
                     properties:
@@ -208,6 +297,39 @@ paths:
                       email:
                         type: string
                         example: user@example.com
+                      role:
+                        type: string
+                        example: tour_operator
+                      created_at:
+                        type: string
+                        example: '2024-01-24T19:26:20.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2024-01-24T19:26:20.000000Z'
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: error
+                  message: UnAuthorized
+                  data: {  }
+                  code: '401'
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: UnAuthorized
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '401'
       tags:
         - Authentication
   /api/v1/tours:
@@ -301,8 +423,8 @@ paths:
               schema:
                 type: object
                 example:
-                  status: true
-                  message: TOUR_LIST_SUCCESS
+                  status: success
+                  message: 'Tours retrieved successfully'
                   data:
                     current_page: 1
                     data:
@@ -319,13 +441,14 @@ paths:
                         updated_at: '2024-01-24T19:26:20.000000Z'
                     total: 60
                     per_page: 10
+                    last_page: 6
                 properties:
                   status:
-                    type: boolean
-                    example: true
+                    type: string
+                    example: success
                   message:
                     type: string
-                    example: TOUR_LIST_SUCCESS
+                    example: 'Tours retrieved successfully'
                   data:
                     type: object
                     properties:
@@ -385,6 +508,9 @@ paths:
                       per_page:
                         type: integer
                         example: 10
+                      last_page:
+                        type: integer
+                        example: 6
       tags:
         - 'Tour Management'
       security: []
@@ -401,8 +527,8 @@ paths:
               schema:
                 type: object
                 example:
-                  status: true
-                  message: TOUR_CREATE_SUCCESS
+                  status: success
+                  message: 'Tour created successfully'
                   data:
                     id: 1
                     name: 'Paris City Tour'
@@ -416,11 +542,11 @@ paths:
                     updated_at: '2024-01-24T19:26:20.000000Z'
                 properties:
                   status:
-                    type: boolean
-                    example: true
+                    type: string
+                    example: success
                   message:
                     type: string
-                    example: TOUR_CREATE_SUCCESS
+                    example: 'Tour created successfully'
                   data:
                     type: object
                     properties:
@@ -454,6 +580,30 @@ paths:
                       updated_at:
                         type: string
                         example: '2024-01-24T19:26:20.000000Z'
+        403:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: error
+                  message: Forbidden
+                  data: {  }
+                  code: '403'
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Forbidden
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '403'
         422:
           description: ''
           content:
@@ -461,15 +611,23 @@ paths:
               schema:
                 type: object
                 example:
-                  status: false
-                  message: TOUR_NAME_REQUIRED
+                  status: error
+                  message: 'Tour name is required'
+                  data: {  }
+                  code: '422001'
                 properties:
                   status:
-                    type: boolean
-                    example: false
+                    type: string
+                    example: error
                   message:
                     type: string
-                    example: TOUR_NAME_REQUIRED
+                    example: 'Tour name is required'
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '422001'
       tags:
         - 'Tour Management'
       requestBody:
@@ -530,8 +688,8 @@ paths:
               schema:
                 type: object
                 example:
-                  status: true
-                  message: TOUR_SHOW_SUCCESS
+                  status: success
+                  message: 'Tour details retrieved successfully'
                   data:
                     id: 1
                     name: 'Paris City Tour'
@@ -545,11 +703,11 @@ paths:
                     updated_at: '2024-01-24T19:26:20.000000Z'
                 properties:
                   status:
-                    type: boolean
-                    example: true
+                    type: string
+                    example: success
                   message:
                     type: string
-                    example: TOUR_SHOW_SUCCESS
+                    example: 'Tour details retrieved successfully'
                   data:
                     type: object
                     properties:
@@ -590,22 +748,30 @@ paths:
               schema:
                 type: object
                 example:
-                  status: false
-                  message: TOUR_NOT_FOUND
+                  status: error
+                  message: 'Tour not found'
+                  data: {  }
+                  code: '404001'
                 properties:
                   status:
-                    type: boolean
-                    example: false
+                    type: string
+                    example: error
                   message:
                     type: string
-                    example: TOUR_NOT_FOUND
+                    example: 'Tour not found'
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '404001'
       tags:
         - 'Tour Management'
       security: []
     put:
       summary: 'Update Tour'
       operationId: updateTour
-      description: 'Update an existing tour. Only the tour operator who created the tour can update it.'
+      description: 'Update an existing tour. Only the tour operator who created the tour or an admin can update it.'
       parameters: []
       responses:
         200:
@@ -615,8 +781,8 @@ paths:
               schema:
                 type: object
                 example:
-                  status: true
-                  message: TOUR_UPDATE_SUCCESS
+                  status: success
+                  message: 'Tour updated successfully'
                   data:
                     id: 1
                     name: 'Updated Paris City Tour'
@@ -630,11 +796,11 @@ paths:
                     updated_at: '2024-01-24T19:30:20.000000Z'
                 properties:
                   status:
-                    type: boolean
-                    example: true
+                    type: string
+                    example: success
                   message:
                     type: string
-                    example: TOUR_UPDATE_SUCCESS
+                    example: 'Tour updated successfully'
                   data:
                     type: object
                     properties:
@@ -675,15 +841,23 @@ paths:
               schema:
                 type: object
                 example:
-                  status: false
-                  message: UNAUTHORIZED_ACTION
+                  status: error
+                  message: Forbidden
+                  data: {  }
+                  code: '403'
                 properties:
                   status:
-                    type: boolean
-                    example: false
+                    type: string
+                    example: error
                   message:
                     type: string
-                    example: UNAUTHORIZED_ACTION
+                    example: Forbidden
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '403'
         404:
           description: ''
           content:
@@ -691,15 +865,47 @@ paths:
               schema:
                 type: object
                 example:
-                  status: false
-                  message: TOUR_NOT_FOUND
+                  status: error
+                  message: 'Tour not found'
+                  data: {  }
+                  code: '404001'
                 properties:
                   status:
-                    type: boolean
-                    example: false
+                    type: string
+                    example: error
                   message:
                     type: string
-                    example: TOUR_NOT_FOUND
+                    example: 'Tour not found'
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '404001'
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: error
+                  message: 'Tour price cannot exceed 999999.99'
+                  data: {  }
+                  code: '422015'
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: 'Tour price cannot exceed 999999.99'
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '422015'
       tags:
         - 'Tour Management'
       requestBody:
@@ -742,7 +948,7 @@ paths:
     delete:
       summary: 'Delete Tour'
       operationId: deleteTour
-      description: 'Delete an existing tour. Only the tour operator who created the tour can delete it.'
+      description: 'Delete an existing tour. Only the tour operator who created the tour or an admin can delete it.'
       parameters: []
       responses:
         200:
@@ -752,15 +958,19 @@ paths:
               schema:
                 type: object
                 example:
-                  status: true
-                  message: TOUR_DELETE_SUCCESS
+                  status: success
+                  message: 'Tour deleted successfully'
+                  data: {  }
                 properties:
                   status:
-                    type: boolean
-                    example: true
+                    type: string
+                    example: success
                   message:
                     type: string
-                    example: TOUR_DELETE_SUCCESS
+                    example: 'Tour deleted successfully'
+                  data:
+                    type: object
+                    properties: {  }
         403:
           description: ''
           content:
@@ -768,15 +978,23 @@ paths:
               schema:
                 type: object
                 example:
-                  status: false
-                  message: UNAUTHORIZED_ACTION
+                  status: error
+                  message: Forbidden
+                  data: {  }
+                  code: '403'
                 properties:
                   status:
-                    type: boolean
-                    example: false
+                    type: string
+                    example: error
                   message:
                     type: string
-                    example: UNAUTHORIZED_ACTION
+                    example: Forbidden
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '403'
         404:
           description: ''
           content:
@@ -784,29 +1002,29 @@ paths:
               schema:
                 type: object
                 example:
-                  status: false
-                  message: TOUR_NOT_FOUND
+                  status: error
+                  message: 'Tour not found'
+                  data: {  }
+                  code: '404001'
                 properties:
                   status:
-                    type: boolean
-                    example: false
+                    type: string
+                    example: error
                   message:
                     type: string
-                    example: TOUR_NOT_FOUND
+                    example: 'Tour not found'
+                  data:
+                    type: object
+                    properties: {  }
+                  code:
+                    type: string
+                    example: '404001'
       tags:
         - 'Tour Management'
     parameters:
       -
         in: path
         name: id
-        description: 'The ID of the tour.'
-        example: nihil
-        required: true
-        schema:
-          type: string
-      -
-        in: path
-        name: tour
         description: 'The ID of the tour.'
         example: 1
         required: true

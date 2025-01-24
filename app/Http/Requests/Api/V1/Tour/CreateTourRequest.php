@@ -40,21 +40,21 @@ class CreateTourRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'TOUR_NAME_REQUIRED',
-            'name.max' => 'TOUR_NAME_TOO_LONG',
-            'description.required' => 'TOUR_DESCRIPTION_REQUIRED',
-            'location.required' => 'TOUR_LOCATION_REQUIRED',
-            'location.max' => 'TOUR_LOCATION_TOO_LONG',
-            'start_date.required' => 'TOUR_START_DATE_REQUIRED',
-            'start_date.date' => 'TOUR_START_DATE_INVALID',
-            'start_date.after_or_equal' => 'TOUR_START_DATE_MUST_BE_FUTURE',
-            'end_date.required' => 'TOUR_END_DATE_REQUIRED',
-            'end_date.date' => 'TOUR_END_DATE_INVALID',
-            'end_date.after' => 'TOUR_END_DATE_MUST_BE_AFTER_START',
-            'price.required' => 'TOUR_PRICE_REQUIRED',
-            'price.numeric' => 'TOUR_PRICE_MUST_BE_NUMBER',
-            'price.min' => 'TOUR_PRICE_MUST_BE_POSITIVE',
-            'price.max' => 'TOUR_PRICE_TOO_HIGH',
+            'name.required' => __('enum.TOUR_NAME_REQUIRED.Message'),
+            'name.max' => __('enum.TOUR_NAME_TOO_LONG.Message'),
+            'description.required' => __('enum.TOUR_DESCRIPTION_REQUIRED.Message'),
+            'location.required' => __('enum.TOUR_LOCATION_REQUIRED.Message'),
+            'location.max' => __('enum.TOUR_LOCATION_TOO_LONG.Message'),
+            'start_date.required' => __('enum.TOUR_START_DATE_REQUIRED.Message'),
+            'start_date.date' => __('enum.TOUR_START_DATE_INVALID.Message'),
+            'start_date.after_or_equal' => __('enum.TOUR_START_DATE_MUST_BE_FUTURE.Message'),
+            'end_date.required' => __('enum.TOUR_END_DATE_REQUIRED.Message'),
+            'end_date.date' => __('enum.TOUR_END_DATE_INVALID.Message'),
+            'end_date.after' => __('enum.TOUR_END_DATE_MUST_BE_AFTER_START.Message'),
+            'price.required' => __('enum.TOUR_PRICE_REQUIRED.Message'),
+            'price.numeric' => __('enum.TOUR_PRICE_MUST_BE_NUMBER.Message'),
+            'price.min' => __('enum.TOUR_PRICE_MUST_BE_POSITIVE.Message'),
+            'price.max' => __('enum.TOUR_PRICE_TOO_HIGH.Message'),
         ];
     }
 }
