@@ -316,7 +316,7 @@ class TourController extends BaseController
         }
 
         if (!Gate::allows('delete-tour', $tour)) {
-            return $this->fail('COMMON_AUTHORIZATION_EXCEPTION', []);
+            return $this->fail('COMMON_AUTHORIZATION_EXCEPTION', [], 403);
         }
 
         $tour->delete();

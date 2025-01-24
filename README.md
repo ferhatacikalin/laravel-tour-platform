@@ -161,11 +161,39 @@ php artisan test
   - Get profile with valid token
   - Cannot access profile without token
 
-#### Tour Management Tests (Coming Soon)
-- Tour CRUD Operations
-- Authorization Rules
-- Filtering and Search
-- Validation Rules
+#### Tour Management Tests (`tests/Feature/TourManagementTest.php`)
+- ✅ Tour Creation
+  - Tour operator can create tour with valid data
+  - Cannot create tour with invalid data
+  - Validates all required fields
+
+- ✅ Tour Updates
+  - Tour operator can update own tour
+  - Tour operator cannot update others' tours
+  - Admin can update any tour
+  - Validates update data
+
+- ✅ Tour Deletion
+  - Tour operator can delete own tour
+  - Tour operator cannot delete others' tours
+  - Admin can delete any tour
+
+- ✅ Tour Listing & Filtering
+  - List tours with date filters
+  - List tours with price range
+  - List tours by location
+  - Search in tour names and descriptions
+
+- ✅ Authorization Rules
+  - Enforces role-based access control
+  - Validates tour ownership
+  - Admin has full access
+
+- ✅ Data Validation
+  - Validates tour name length
+  - Validates date logic (start before end)
+  - Validates price range
+  - Validates required fields
 
 ## Development Progress
 
