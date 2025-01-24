@@ -151,3 +151,35 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Testing
+
+### Running Tests
+```bash
+php artisan test
+```
+
+### Test Coverage
+
+#### Authentication Tests (`tests/Feature/AuthenticationTest.php`)
+- ✅ User Registration
+  - Successful registration with valid data
+  - Failed registration with invalid data (empty fields, invalid email, etc.)
+  - Failed registration with existing email
+  - Password confirmation validation
+
+- ✅ User Login
+  - Successful login with valid credentials
+  - Failed login with invalid credentials
+  - Failed login with non-existent email
+  - Failed login with empty credentials
+
+- ✅ User Profile
+  - Get profile with valid token
+  - Cannot access profile without token
+
+#### Tour Management Tests (Coming Soon)
+- Tour CRUD Operations
+- Authorization Rules
+- Filtering and Search
+- Validation Rules
