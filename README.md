@@ -204,3 +204,63 @@ php artisan test
 - 🔄 Testing
 - ⏳ Documentation & Deployment
 - ⏳ Optional Enhancements
+
+## Project Structure
+
+```
+laravel-tour-platform/
+├── app/
+│   ├── Api/
+│   │   └── V1/
+│   │       ├── Controllers/
+│   │       │   ├── AuthController.php
+│   │       │   ├── BaseController.php
+│   │       │   └── TourController.php
+│   │       └── Requests/
+│   │           ├── CreateTourRequest.php
+│   │           └── UpdateTourRequest.php
+│   ├── Http/
+│   │   ├── Middleware/
+│   │   │   └── AdminPanelMiddleware.php
+│   │   └── Requests/
+│   ├── Models/
+│   │   ├── Tour.php
+│   │   └── User.php
+│   ├── Policies/
+│   │   └── TourPolicy.php
+│   └── Traits/
+│       └── ApiResponse.php
+├── database/
+│   ├── factories/
+│   │   ├── TourFactory.php
+│   │   └── UserFactory.php
+│   ├── migrations/
+│   └── seeders/
+│       ├── TourSeeder.php
+│       └── UserSeeder.php
+├── routes/
+│   └── api.php
+├── tests/
+│   └── Feature/
+│       ├── AuthenticationTest.php
+│       └── TourManagementTest.php
+└── lang/
+    └── en/
+        └── enum.php
+```
+
+### Key Directories
+
+- `app/Api/V1/`: Contains API version 1 related files
+  - `Controllers/`: API controllers with versioning support
+  - `Requests/`: Form request validation classes
+- `app/Models/`: Eloquent models
+- `app/Policies/`: Authorization policies
+- `app/Traits/`: Reusable traits like ApiResponse
+- `database/`: Database related files (migrations, factories, seeders)
+- `tests/Feature/`: Feature tests for API endpoints
+- `lang/en/`: Language files for response messages
+
+### API Versioning
+
+The API is versioned using directory structure (`V1`) to ensure backward compatibility as the API evolves. All API controllers are placed under `app/Api/V1/Controllers/` directory.
